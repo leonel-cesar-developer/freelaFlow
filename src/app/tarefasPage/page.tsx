@@ -1,5 +1,5 @@
-// --- app/dashboard/tarefas/page.tsx ---
 "use client";
+
 import { useTaskStore } from "@/app/lib/store/taskStore";
 import { useForm } from "react-hook-form";
 

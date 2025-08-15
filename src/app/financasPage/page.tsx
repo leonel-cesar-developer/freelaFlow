@@ -11,6 +11,7 @@ import {
   BarChart,
   Bar,
 } from "recharts";
+
 import Relatorio from "@/app/components/dashboardRelatorio/Relatorio";
 interface Transaction {
   id: string;

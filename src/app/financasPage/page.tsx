@@ -194,7 +194,7 @@ function FinancasPage() {
       {/* Gráficos */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="bg-white p-6 rounded-lg shadow h-64">
-          <h4 className="font-semibold mb-2">Distribuição por Categoria</h4>
+          <h4 className="font-semibold mb-2">Distribuição por Categoria</h4>   
           <ResponsiveContainer width="100%" height="80%">
             <PieChart>
               <Pie

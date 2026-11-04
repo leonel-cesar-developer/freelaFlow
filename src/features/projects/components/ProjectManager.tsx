@@ -3,19 +3,19 @@
 import { useState } from "react";
 
 import { ProjectForm } from "./ProjectForm";
-import { useProjects } from "../projects/hooks/useProjects";
+import { useProjects } from "../hooks/useProjects";
 
 import {
   useCreateProject,
   useDeleteProject,
   useUpdateProject,
-} from "../projects/hooks/useProjectMutations";
+} from "../hooks/useProjectMutations";
 
 import type {
   CreateProjectInput,
   Project,
   ProjectStatus,
-} from "../projects/types/projects.types";
+} from "../types/projects.types";
 
 const statusLabels: Record<ProjectStatus, string> = {
   PLANNING: "Planeamento",

@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+
 import Navbar from "./components/navbar/Navbar";
 import Sidebar from "./components/sidebar/Sidebar";
+import QueryProvider from "../providers/QueryProvider";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -26,21 +29,22 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="pt-BR"
+      lang="pt-PT"
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
       <body className="min-h-screen bg-gray-100 text-gray-900">
-      
+        <QueryProvider>
           <div className="flex h-screen overflow-hidden">
             <Sidebar />
-            <div className="flex-1 flex flex-col">
+
+            <div className="flex flex-1 flex-col min-w-0">
               <Navbar />
+
               <main className="flex-1 overflow-y-auto p-6">{children}</main>
             </div>
           </div>
-       
+        </QueryProvider>
       </body>
     </html>
   );
 }
-

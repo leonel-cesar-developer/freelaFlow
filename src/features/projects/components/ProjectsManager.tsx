@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-
 import { ProjectForm } from "./ProjectForm";
 import { useProjects } from "../hooks/useProjects";
+import { ProjectList } from "./ProjectList";
 
 import {
   useCreateProject,
@@ -16,13 +16,6 @@ import type {
   Project,
   ProjectStatus,
 } from "../types/projects.types";
-
-const statusLabels: Record<ProjectStatus, string> = {
-  PLANNING: "Planeamento",
-  IN_PROGRESS: "Em andamento",
-  COMPLETED: "Concluído",
-  CANCELLED: "Cancelado",
-};
 
 export function ProjectsManager() {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -69,9 +62,11 @@ export function ProjectsManager() {
           id: editingProject.id,
           input,
         });
+
         setFeedback("Projeto atualizado com sucesso.");
       } else {
         await createProject.mutateAsync(input);
+
         setFeedback("Projeto criado com sucesso.");
       }
 
@@ -103,7 +98,9 @@ export function ProjectsManager() {
 
     try {
       setFeedback(null);
+
       await deleteProject.mutateAsync(id);
+
       setFeedback("Projeto eliminado com sucesso.");
     } catch {
       setFeedback("Não foi possível eliminar o projeto.");
@@ -168,79 +165,21 @@ export function ProjectsManager() {
       {projects.length === 0 ? (
         <div className="rounded-xl border p-8 text-center">
           <p>Ainda não existem projetos.</p>
+
           <p className="text-sm text-slate-500">
             Cria o primeiro projeto para começar.
           </p>
         </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {projects.map((project) => (
-            <article
-              key={project.id}
-              className="space-y-4 rounded-xl border border-slate-200 bg-white p-5"
-            >
-              <div>
-                <h2 className="text-lg font-semibold">{project.name}</h2>
-                <p className="mt-1 text-sm text-slate-500">
-                  {project.description || "Sem descrição"}
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <label
-                  htmlFor={`status-${project.id}`}
-                  className="block text-sm font-medium"
-                >
-                  Estado
-                </label>
-
-                <select
-                  id={`status-${project.id}`}
-                  value={project.status}
-                  disabled={updateProject.isPending}
-                  onChange={(event) =>
-                    void handleStatusChange(
-                      project.id,
-                      event.target.value as ProjectStatus,
-                    )
-                  }
-                  className="w-full rounded-lg border px-3 py-2"
-                >
-                  {Object.entries(statusLabels).map(([value, label]) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <p className="text-sm font-medium">
-                {project.budget.toLocaleString("pt-PT", {
-                  style: "currency",
-                  currency: "EUR",
-                })}
-              </p>
-
-              <div className="flex justify-end gap-2 border-t pt-3">
-                <button
-                  type="button"
-                  onClick={() => openEditForm(project)}
-                  className="rounded-lg border px-3 py-2 text-sm"
-                >
-                  Editar
-                </button>
-
-                <button
-                  type="button"
-                  disabled={deleteProject.isPending}
-                  onClick={() => void handleDelete(project.id)}
-                  className="rounded-lg px-3 py-2 text-sm text-red-600 hover:bg-red-50 disabled:opacity-50"
-                >
-                  Eliminar
-                </button>
-              </div>
-            </article>
-          ))}
+          <ProjectList
+            projects={projects}
+            isUpdating={updateProject.isPending}
+            isDeleting={deleteProject.isPending}
+            onEdit={openEditForm}
+            onDelete={(id) => void handleDelete(id)}
+            onStatusChange={(id, status) => void handleStatusChange(id, status)}
+          />
         </div>
       )}
     </section>

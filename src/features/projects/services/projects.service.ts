@@ -1,4 +1,3 @@
-
 import type {
   Project,
   CreateProjectInput,
@@ -24,9 +23,7 @@ const STORAGE_KEY = "freelaflow_projects";
 
 function ensureBrowser(): void {
   if (typeof window === "undefined") {
-    throw new Error(
-      "A persistência local só está disponível no navegador.",
-    );
+    throw new Error("A persistência local só está disponível no navegador.");
   }
 }
 
@@ -52,9 +49,7 @@ export const projectsService: ProjectsService = {
   async getById(id: string): Promise<Project | null> {
     const projects = await projectsService.getAll();
 
-    const project = projects.find(
-      (project) => project.id === id,
-    );
+    const project = projects.find((project) => project.id === id);
 
     return project ?? null;
   },
@@ -64,9 +59,7 @@ export const projectsService: ProjectsService = {
     ensureBrowser();
 
     const validatedInput = createProjectSchema.parse(input);
-
     const projects = await projectsService.getAll();
-
     const now = new Date().toISOString();
 
     const newProject: Project = {
@@ -88,19 +81,14 @@ export const projectsService: ProjectsService = {
   },
 
   // UPDATE
-  async update(
-    id: string,
-    input: UpdateProjectInput,
-  ): Promise<Project> {
+  async update(id: string, input: UpdateProjectInput): Promise<Project> {
     ensureBrowser();
 
     const validatedInput = updateProjectSchema.parse(input);
 
     const projects = await projectsService.getAll();
 
-    const existingProject = projects.find(
-      (project) => project.id === id,
-    );
+    const existingProject = projects.find((project) => project.id === id);
 
     if (!existingProject) {
       throw new Error("Projeto não encontrado.");
@@ -120,10 +108,7 @@ export const projectsService: ProjectsService = {
       project.id === id ? validatedProject : project,
     );
 
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(updatedProjects),
-    );
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedProjects));
 
     return validatedProject;
   },
@@ -134,21 +119,14 @@ export const projectsService: ProjectsService = {
 
     const projects = await projectsService.getAll();
 
-    const projectExists = projects.some(
-      (project) => project.id === id,
-    );
+    const projectExists = projects.some((project) => project.id === id);
 
     if (!projectExists) {
       throw new Error("Projeto não encontrado.");
     }
 
-    const remainingProjects = projects.filter(
-      (project) => project.id !== id,
-    );
+    const remainingProjects = projects.filter((project) => project.id !== id);
 
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(remainingProjects),
-    );
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(remainingProjects));
   },
 };

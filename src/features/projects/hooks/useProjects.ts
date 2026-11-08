@@ -2,10 +2,11 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { projectsService } from "../services/projects.service";
+import { projectKeys } from "../hooks/projectKey";
 
 export function useProjects() {
   return useQuery({
-    queryKey: ["projects"],
-    queryFn: () => projectsService.getAll(),
+    queryKey: projectKeys.lists(),
+    queryFn: projectsService.getAll,
   });
 }

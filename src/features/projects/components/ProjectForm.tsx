@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import type {
   CreateProjectInput,
   Project,
-} from "../projects/types/projects.types";
+} from "../types/projects.types";
 
 const formSchema = z.object({
   name: z.string().trim().min(1, "O nome é obrigatório."),

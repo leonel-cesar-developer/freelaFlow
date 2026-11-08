@@ -1,27 +1,13 @@
-export type ProjectStatus =
-  | "PLANNING"
-  | "IN_PROGRESS"
-  | "COMPLETED"
-  | "CANCELLED";
+import { z } from "zod";
 
-export interface Project {
-  id: string;
-  name: string;
-  description: string;
-  clientId: string | null;
-  status: ProjectStatus;
-  budget: number;
-  startDate: string | null;
-  dueDate: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
+import {
+  projectSchema,
+  projectStatusSchema,
+  createProjectSchema,
+  updateProjectSchema,
+} from "../schemas/projects.schema";
 
-export type CreateProjectInput = Pick<
-  Project,
-  "name" | "description" | "clientId" | "budget" | "startDate" | "dueDate"
->;
-
-export type UpdateProjectInput = Partial<
-  CreateProjectInput & Pick<Project, "status">
->;
+export type ProjectStatus = z.infer<typeof projectStatusSchema>;
+export type Project = z.infer<typeof projectSchema>;
+export type CreateProjectInput = z.infer<typeof createProjectSchema>;
+export type UpdateProjectInput = z.infer<typeof updateProjectSchema>;

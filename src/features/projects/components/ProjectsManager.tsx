@@ -88,7 +88,6 @@ export function ProjectsManager() {
       setFeedback("Não foi possível atualizar o estado.");
     }
   }
-
   async function handleDelete(id: string) {
     const confirmed = window.confirm(
       "Tens a certeza de que queres eliminar este projeto?",
@@ -171,7 +170,7 @@ export function ProjectsManager() {
           </p>
         </div>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        
           <ProjectList
             projects={projects}
             isUpdating={updateProject.isPending}
@@ -180,7 +179,7 @@ export function ProjectsManager() {
             onDelete={(id) => void handleDelete(id)}
             onStatusChange={(id, status) => void handleStatusChange(id, status)}
           />
-        </div>
+      
       )}
     </section>
   );
